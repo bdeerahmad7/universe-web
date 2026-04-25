@@ -363,6 +363,15 @@
 
 .forumReply:hover { background: rgba(19,38,83,.04); }
 
+/* reply author name */
+.forumReplyAuthor {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--blue-main);
+  margin-bottom: 4px;
+}
+
 .forumReplyActions {
   display: flex;
   gap: 8px;
@@ -382,6 +391,21 @@
 .forumReplyBox {
   display: flex;
   gap: 10px;
+}
+
+/* sign in prompt */
+.forumSignInPrompt {
+  padding: 14px 18px;
+  background: rgba(19,38,83,.04);
+  border: 1px solid rgba(19,38,83,.08);
+  border-radius: 14px;
+  font-size: 14px;
+  color: var(--text-soft);
+}
+
+.forumSignInPrompt.small {
+  padding: 10px 14px;
+  font-size: 13px;
 }
 
 /* notice */

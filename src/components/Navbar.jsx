@@ -4,7 +4,7 @@ import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-/* nav links used in both desktop and mobile */
+/* nav links */
 const navLinks = [
   { to: "/",             label: "Home",        end: true  },
   { to: "/universities", label: "Universities", end: false },
@@ -17,9 +17,12 @@ const navLinks = [
 const linkClass = ({ isActive }) => isActive ? "navbarLink active" : "navbarLink";
 
 export default function Navbar() {
-  const [open,     setOpen]     = useState(false);
-  const [user,     setUser]     = useState(null);
-  const [dropOpen, setDropOpen] = useState(false);
+  const [open,      setOpen]      = useState(false);
+  const [user,      setUser]      = useState(null);
+  const [dropOpen,  setDropOpen]  = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [nameInput, setNameInput] = useState("");
+  const [nameError, setNameError] = useState("");
 
   /* load saved user on mount */
   useEffect(() => {
@@ -29,14 +32,21 @@ export default function Navbar() {
 
   const closeMenu = () => setOpen(false);
 
-  /* demo login — no real auth in MVP */
-  const handleDemoLogin = () => {
-    const demoUser = {
-      name:   "Student",
-      avatar: "https://i.pravatar.cc/60?img=12",
+  /* sign in with name */
+  const handleSignIn = () => {
+    if (nameInput.trim().length < 2) {
+      setNameError("Please enter your name.");
+      return;
+    }
+    const newUser = {
+      name:   nameInput.trim(),
+      avatar: `https://i.pravatar.cc/60?u=${nameInput.trim()}`,
     };
-    localStorage.setItem("universe-user", JSON.stringify(demoUser));
-    setUser(demoUser);
+    localStorage.setItem("universe-user", JSON.stringify(newUser));
+    setUser(newUser);
+    setShowModal(false);
+    setNameInput("");
+    setNameError("");
     setOpen(false);
   };
 
@@ -50,6 +60,36 @@ export default function Navbar() {
 
   return (
     <header className="navbarWrap">
+
+      {/* sign in modal */}
+      {showModal && (
+        <div className="navModalWrap" onClick={() => setShowModal(false)}>
+          <div className="navModal" onClick={(e) => e.stopPropagation()}>
+            <h2 className="navModalTitle">Sign in to UniVerse</h2>
+            <p className="navModalSub">Enter your name to get started. No password needed.</p>
+            <input
+              className="navModalInput"
+              placeholder="Your name"
+              value={nameInput}
+              onChange={(e) => { setNameInput(e.target.value); setNameError(""); }}
+              onKeyDown={(e) => e.key === "Enter" && handleSignIn()}
+              autoFocus
+            />
+            {nameError && <p className="navModalError">{nameError}</p>}
+            <div className="navModalActions">
+              <button className="navModalBtn" type="button" onClick={handleSignIn}>
+                Sign in
+              </button>
+              <button className="navModalGhost" type="button" onClick={() => setShowModal(false)}>
+                Cancel
+              </button>
+            </div>
+            <p className="navModalNote">
+              Your progress and posts are saved to this device. Full account sync coming soon.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* main bar */}
       <div className="navbar">
@@ -72,10 +112,10 @@ export default function Navbar() {
         <div className="navbarActions">
           {!user ? (
             <>
-              <button className="navbarGhost" type="button" onClick={handleDemoLogin}>
+              <button className="navbarGhost" type="button" onClick={() => setShowModal(true)}>
                 Sign in
               </button>
-              <button className="navbarButton" type="button" onClick={handleDemoLogin}>
+              <button className="navbarButton" type="button" onClick={() => setShowModal(true)}>
                 Sign up
               </button>
             </>
@@ -103,6 +143,13 @@ export default function Navbar() {
                     onClick={() => { closeMenu(); setDropOpen(false); }}
                   >
                     Life guide
+                  </NavLink>
+                  <NavLink
+                    to="/motivation"
+                    className="navDropdownLink"
+                    onClick={() => { closeMenu(); setDropOpen(false); }}
+                  >
+                    Motivation
                   </NavLink>
                   <button
                     className="navDropdownBtn"
@@ -147,10 +194,10 @@ export default function Navbar() {
           <div className="navbarMobileActions">
             {!user ? (
               <>
-                <button className="navbarMobileGhost" type="button" onClick={handleDemoLogin}>
+                <button className="navbarMobileGhost" type="button" onClick={() => { setShowModal(true); setOpen(false); }}>
                   Sign in
                 </button>
-                <button className="navbarMobileButton" type="button" onClick={handleDemoLogin}>
+                <button className="navbarMobileButton" type="button" onClick={() => { setShowModal(true); setOpen(false); }}>
                   Sign up
                 </button>
               </>
