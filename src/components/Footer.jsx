@@ -20,9 +20,10 @@ export default function Footer() {
         <nav className="footerLinks">
           <p className="footerLinksTitle">Explore</p>
           <NavLink to="/"            className="footerLink">Home</NavLink>
-          <NavLink to="/universities" className="footerLink">Universities</NavLink>
-          <NavLink to="/guides"      className="footerLink">Life Guide</NavLink>
-          <NavLink to="/forum"       className="footerLink">Forum</NavLink>
+<NavLink to="/universities" className="footerLink">Universities</NavLink>
+<NavLink to="/guides"      className="footerLink">Life Guide</NavLink>
+<NavLink to="/motivation"  className="footerLink">Motivation</NavLink>
+<NavLink to="/forum"       className="footerLink">Forum</NavLink>
         </nav>
 
       </div>

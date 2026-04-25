@@ -9,6 +9,7 @@ const navLinks = [
   { to: "/",             label: "Home",        end: true  },
   { to: "/universities", label: "Universities", end: false },
   { to: "/guides",       label: "Life Guide",   end: false },
+  { to: "/motivation",   label: "Motivation",   end: false },
   { to: "/forum",        label: "Forum",        end: false },
 ];
 

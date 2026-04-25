@@ -7,6 +7,7 @@ import Universities from "./pages/Universities";
 import UniversityDetails from "./pages/UniversityDetails";
 import Guides from "./pages/Guides";
 import Forum from "./pages/Forum";
+import Motivation from "./pages/Motivation";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/universities"     element={<Universities />} />
         <Route path="/universities/:id" element={<UniversityDetails />} />
         <Route path="/guides"           element={<Guides />} />
+        <Route path="/motivation"       element={<Motivation />} />
         <Route path="/forum"            element={<Forum />} />
         <Route path="*"                 element={<NotFound />} />
       </Route>

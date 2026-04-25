@@ -1,0 +1,349 @@
+/* Motivation.css — motivation and tips page */
+
+.motivationPage {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* intro */
+.motivationIntro { max-width: 760px; }
+
+.motivationEyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(17,17,17,.45);
+}
+
+.motivationTitle {
+  margin-top: 10px;
+  font-size: clamp(34px, 5vw, 54px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.motivationSub {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(17,17,17,.62);
+}
+
+/* random tip */
+.motivationRandom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.motivationRandomCard {
+  width: 100%;
+  background: var(--btn-gradient);
+  border-radius: 24px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(19,38,83,.2);
+  min-height: 140px;
+  justify-content: center;
+}
+
+.motivationRandomIcon { font-size: 32px; }
+
+.motivationRandomText {
+  font-size: 18px;
+  line-height: 1.7;
+  color: var(--white);
+  font-weight: 400;
+  max-width: 680px;
+}
+
+.motivationRandomCat {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+}
+
+.motivationRandomPrompt {
+  font-size: 16px;
+  color: rgba(255,255,255,.7);
+}
+
+.motivationRandomBtn {
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--btn-gradient);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 10px 24px rgba(19,38,83,.18);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.motivationRandomBtn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(19,38,83,.22);
+}
+
+/* add tip box */
+.motivationAddBox {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 22px;
+  box-shadow: var(--shadow-soft);
+}
+
+.motivationAddTitle {
+  font-size: 18px;
+  font-weight: 650;
+  color: var(--text-main);
+}
+
+.motivationAddSub {
+  margin-top: 6px;
+  font-size: 14px;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+.motivationAddForm {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  gap: 10px;
+  margin-top: 14px;
+  align-items: center;
+}
+
+.motivationSelect,
+.motivationInput {
+  height: 44px;
+  border: 1px solid rgba(17,17,17,.08);
+  border-radius: 14px;
+  background: var(--white);
+  color: var(--text-main);
+  font-size: 14px;
+  padding: 0 14px;
+  outline: none;
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.motivationSelect:focus,
+.motivationInput:focus {
+  border-color: var(--blue-main);
+  box-shadow: 0 0 0 3px var(--focus);
+}
+
+.motivationSelect { cursor: pointer; }
+
+.motivationMainBtn {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 0;
+  background: var(--btn-gradient);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 8px 18px rgba(19,38,83,.16);
+  transition: transform .18s ease;
+}
+
+.motivationMainBtn:hover { transform: translateY(-1px); }
+
+/* filters */
+.motivationFilters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.motivationTabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.motivationTab {
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(17,17,17,.08);
+  background: var(--white);
+  color: var(--text-main);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+
+.motivationTab:hover { transform: translateY(-1px); background: rgba(19,38,83,.06); }
+
+.motivationTab.active {
+  background: var(--btn-gradient);
+  color: var(--white);
+  border-color: var(--blue-main);
+  box-shadow: 0 8px 18px rgba(19,38,83,.16);
+}
+
+.motivationSavedBtn {
+  min-height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(17,17,17,.08);
+  background: var(--white);
+  color: var(--text-main);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, transform .18s ease;
+}
+
+.motivationSavedBtn:hover { transform: translateY(-1px); }
+
+.motivationSavedBtn.active {
+  background: var(--btn-gradient);
+  color: var(--white);
+  border-color: var(--blue-main);
+}
+
+/* tips grid */
+.motivationGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.motivationCard {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.motivationCard:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-mid);
+}
+
+.motivationCard.userAdded {
+  border-color: rgba(19,38,83,.14);
+}
+
+.motivationCardTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.motivationCardIcon { font-size: 18px; }
+
+.motivationCardCat {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--blue-main);
+  background: rgba(19,38,83,.08);
+  border: 1px solid rgba(19,38,83,.10);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.motivationUserBadge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #a01212;
+  background: rgba(160,18,18,.06);
+  border: 1px solid rgba(160,18,18,.12);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.motivationCardText {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(17,17,17,.72);
+  flex: 1;
+}
+
+.motivationSaveBtn {
+  align-self: flex-start;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(17,17,17,.08);
+  background: var(--white);
+  color: var(--text-main);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease;
+}
+
+.motivationSaveBtn.saved {
+  background: var(--btn-gradient);
+  color: var(--white);
+  border-color: var(--blue-main);
+}
+
+/* empty */
+.motivationEmpty {
+  grid-column: 1 / -1;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 22px;
+  color: var(--text-soft);
+  font-size: 14px;
+}
+
+/* notice */
+.motivationNotice {
+  position: fixed;
+  top: 90px;
+  right: 20px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(17,17,17,.9);
+  color: var(--white);
+  font-size: 13px;
+  z-index: 120;
+  box-shadow: 0 16px 30px rgba(0,0,0,.16);
+}
+
+/* mobile */
+@media (max-width: 960px) {
+  .motivationGrid { grid-template-columns: 1fr 1fr; }
+  .motivationTitle { font-size: 28px; }
+  .motivationAddForm { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .motivationGrid { grid-template-columns: 1fr; }
+  .motivationAddBox { padding: 16px; }
+  .motivationRandomCard { padding: 22px; }
+  .motivationRandomText { font-size: 15px; }
+}
