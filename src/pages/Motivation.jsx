@@ -2,28 +2,24 @@
 
 import "./Motivation.css";
 import { useState } from "react";
-
-// localStorage key
-const SAVED_KEY = "universe-saved-tips";
+import { getData, setData, STORAGE_KEYS } from "../data/storage";
 
 // all tips data
 const tipsData = [
   // mindset
-  { id: 1, category: "Mindset", tip: "Every expert was once a beginner. You are not behind — you are exactly where you need to be." },
-  { id: 2, category: "Mindset", tip: "Being far from home takes courage most people will never understand. That courage is already your strength." },
-  { id: 3, category: "Mindset", tip: "Confusion is not failure. It is the first stage of understanding something new." },
-  { id: 4, category: "Mindset", tip: "You did not come this far to only come this far. Keep going." },
-  { id: 5, category: "Mindset", tip: "Comparing your chapter one to someone else's chapter ten will always mislead you. Focus on your own progress." },
-  { id: 6, category: "Mindset", tip: "The discomfort you feel right now is not a sign you made the wrong choice. It is a sign you are growing." },
-
+  { id: 1,  category: "Mindset",   tip: "Every expert was once a beginner. You are not behind — you are exactly where you need to be." },
+  { id: 2,  category: "Mindset",   tip: "Being far from home takes courage most people will never understand. That courage is already your strength." },
+  { id: 3,  category: "Mindset",   tip: "Confusion is not failure. It is the first stage of understanding something new." },
+  { id: 4,  category: "Mindset",   tip: "You did not come this far to only come this far. Keep going." },
+  { id: 5,  category: "Mindset",   tip: "Comparing your chapter one to someone else's chapter ten will always mislead you. Focus on your own progress." },
+  { id: 6,  category: "Mindset",   tip: "The discomfort you feel right now is not a sign you made the wrong choice. It is a sign you are growing." },
   // study
-  { id: 7,  category: "Study", tip: "One focused hour beats three distracted hours every time. Protect your concentration." },
-  { id: 8,  category: "Study", tip: "Start with the hardest task first. Everything after it will feel easier." },
-  { id: 9,  category: "Study", tip: "Reading once and understanding is worth more than reading ten times and forgetting." },
-  { id: 10, category: "Study", tip: "Ask questions in class. Nobody remembers the person who asked — they only remember the person who understood." },
-  { id: 11, category: "Study", tip: "Your notes are only useful if you can read them later. Write clearly, even when you are in a hurry." },
-  { id: 12, category: "Study", tip: "A short break every 45 minutes is not wasted time. It is how your brain consolidates what it just learned." },
-
+  { id: 7,  category: "Study",     tip: "One focused hour beats three distracted hours every time. Protect your concentration." },
+  { id: 8,  category: "Study",     tip: "Start with the hardest task first. Everything after it will feel easier." },
+  { id: 9,  category: "Study",     tip: "Reading once and understanding is worth more than reading ten times and forgetting." },
+  { id: 10, category: "Study",     tip: "Ask questions in class. Nobody remembers the person who asked — they only remember the person who understood." },
+  { id: 11, category: "Study",     tip: "Your notes are only useful if you can read them later. Write clearly, even when you are in a hurry." },
+  { id: 12, category: "Study",     tip: "A short break every 45 minutes is not wasted time. It is how your brain consolidates what it just learned." },
   // wellbeing
   { id: 13, category: "Wellbeing", tip: "Sleep is not a luxury. It is the single most important thing you can do for your academic performance." },
   { id: 14, category: "Wellbeing", tip: "Eating properly is not optional. Your brain runs on food, not just caffeine." },
@@ -31,22 +27,20 @@ const tipsData = [
   { id: 16, category: "Wellbeing", tip: "If you are struggling, tell someone. Your university has support services specifically for international students." },
   { id: 17, category: "Wellbeing", tip: "A 20 minute walk outside will do more for your focus than an extra hour at your desk." },
   { id: 18, category: "Wellbeing", tip: "You are allowed to have bad days. They do not cancel out your good ones." },
-
   // finance
-  { id: 19, category: "Finance", tip: "Track every pound you spend for one week. The results will surprise you and help you budget better." },
-  { id: 20, category: "Finance", tip: "Student discounts exist everywhere in the UK. Always ask before you pay full price." },
-  { id: 21, category: "Finance", tip: "Cook at home at least five days a week. It is the single biggest way to save money as a student." },
-  { id: 22, category: "Finance", tip: "Set up a weekly budget on Sunday. It takes ten minutes and saves you from stress all week." },
-  { id: 23, category: "Finance", tip: "An emergency fund of even £100 set aside will protect you from the small crises that derail students." },
-  { id: 24, category: "Finance", tip: "Free events at your university are not just for socialising. They are free food, free entertainment, and free connections." },
-
+  { id: 19, category: "Finance",   tip: "Track every pound you spend for one week. The results will surprise you and help you budget better." },
+  { id: 20, category: "Finance",   tip: "Student discounts exist everywhere in the UK. Always ask before you pay full price." },
+  { id: 21, category: "Finance",   tip: "Cook at home at least five days a week. It is the single biggest way to save money as a student." },
+  { id: 22, category: "Finance",   tip: "Set up a weekly budget on Sunday. It takes ten minutes and saves you from stress all week." },
+  { id: 23, category: "Finance",   tip: "An emergency fund of even £100 set aside will protect you from the small crises that derail students." },
+  { id: 24, category: "Finance",   tip: "Free events at your university are not just for socialising. They are free food, free entertainment, and free connections." },
   // social
-  { id: 25, category: "Social", tip: "The first conversation is always the hardest. After that it gets easier every time." },
-  { id: 26, category: "Social", tip: "Join one society or club in your first month. It is the fastest way to meet people who share your interests." },
-  { id: 27, category: "Social", tip: "Not every friendship starts immediately. Some of the best ones take a whole semester to develop." },
-  { id: 28, category: "Social", tip: "Your cultural background is not something to hide. It is something that makes you interesting to everyone around you." },
-  { id: 29, category: "Social", tip: "Say yes to at least one social invitation per week, even when you do not feel like it." },
-  { id: 30, category: "Social", tip: "Being kind costs nothing and opens more doors than any qualification ever will." },
+  { id: 25, category: "Social",    tip: "The first conversation is always the hardest. After that it gets easier every time." },
+  { id: 26, category: "Social",    tip: "Join one society or club in your first month. It is the fastest way to meet people who share your interests." },
+  { id: 27, category: "Social",    tip: "Not every friendship starts immediately. Some of the best ones take a whole semester to develop." },
+  { id: 28, category: "Social",    tip: "Your cultural background is not something to hide. It is something that makes you interesting to everyone around you." },
+  { id: 29, category: "Social",    tip: "Say yes to at least one social invitation per week, even when you do not feel like it." },
+  { id: 30, category: "Social",    tip: "Being kind costs nothing and opens more doors than any qualification ever will." },
 ];
 
 const categories = ["All", "Mindset", "Study", "Wellbeing", "Finance", "Social"];
@@ -61,25 +55,28 @@ const categoryIcons = {
 
 export default function Motivation() {
   const [activeCategory, setActiveCategory] = useState("All");
-  const [saved, setSaved] = useState(() =>
-    JSON.parse(localStorage.getItem(SAVED_KEY) || "[]")
-  );
-  const [savedOnly, setSavedOnly] = useState(false);
-  const [randomTip, setRandomTip] = useState(null);
-  const [newTip, setNewTip] = useState("");
-  const [newCategory, setNewCategory] = useState("Mindset");
-  const [userTips, setUserTips] = useState(() =>
-    JSON.parse(localStorage.getItem("universe-user-tips") || "[]")
-  );
-  const [notice, setNotice] = useState("");
+  const [savedOnly,      setSavedOnly]      = useState(false);
+  const [randomTip,      setRandomTip]      = useState(null);
+  const [newTip,         setNewTip]         = useState("");
+  const [newCategory,    setNewCategory]    = useState("Mindset");
+  const [notice,         setNotice]         = useState("");
 
-  // save tip toggle
+  // load from centralised storage — per user if logged in
+  const [saved, setSaved] = useState(() =>
+    getData(STORAGE_KEYS.savedTips, [])
+  );
+
+  const [userTips, setUserTips] = useState(() =>
+    getData(STORAGE_KEYS.userTips, [])
+  );
+
+  // toggle save tip
   const toggleSave = (id) => {
     const updated = saved.includes(id)
       ? saved.filter((i) => i !== id)
       : [...saved, id];
     setSaved(updated);
-    localStorage.setItem(SAVED_KEY, JSON.stringify(updated));
+    setData(STORAGE_KEYS.savedTips, updated);
   };
 
   // show notice then hide
@@ -99,7 +96,7 @@ export default function Motivation() {
     };
     const updated = [tip, ...userTips];
     setUserTips(updated);
-    localStorage.setItem("universe-user-tips", JSON.stringify(updated));
+    setData(STORAGE_KEYS.userTips, updated);
     setNewTip("");
     showNotice("Tip added!");
   };
@@ -116,7 +113,7 @@ export default function Motivation() {
 
   // filtered tips
   const filtered = allTips.filter((t) => {
-    const matchCat = activeCategory === "All" || t.category === activeCategory;
+    const matchCat   = activeCategory === "All" || t.category === activeCategory;
     const matchSaved = savedOnly ? saved.includes(t.id) : true;
     return matchCat && matchSaved;
   });

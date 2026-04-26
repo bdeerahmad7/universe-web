@@ -2,9 +2,7 @@
 
 import "./Forum.css";
 import { useMemo, useState } from "react";
-
-// localStorage key
-const FORUM_KEY = "universe-forum-posts-v2";
+import { getData, setData, STORAGE_KEYS, getUser } from "../data/storage";
 
 // category options
 const categories = ["All", "Accommodation", "Banking", "Transport", "Work", "University", "Other"];
@@ -37,15 +35,11 @@ const starterPosts = [
   },
 ];
 
-// get current logged in user
-const getUser = () =>
-  JSON.parse(localStorage.getItem("universe-user") || "null");
-
 export default function Forum() {
-  const [posts, setPosts] = useState(() => {
-    const saved = localStorage.getItem(FORUM_KEY);
-    return saved ? JSON.parse(saved) : starterPosts;
-  });
+  // load from centralised storage — per user if logged in
+  const [posts, setPosts] = useState(() =>
+    getData(STORAGE_KEYS.forumPosts, starterPosts)
+  );
 
   const [openId, setOpenId] = useState(1);
   const [search, setSearch] = useState("");
@@ -70,13 +64,13 @@ export default function Forum() {
 
   const [notice, setNotice] = useState("");
 
-  // current user
+  // current user from centralised storage
   const user = getUser();
 
-  // save posts to localStorage
+  // save posts to centralised storage — per user if logged in
   const savePosts = (updated) => {
     setPosts(updated);
-    localStorage.setItem(FORUM_KEY, JSON.stringify(updated));
+    setData(STORAGE_KEYS.forumPosts, updated);
   };
 
   // show notice then auto hide
@@ -402,7 +396,6 @@ export default function Forum() {
                                 <span className="forumReplyAuthor">{r.author || "Student"}</span>
                                 <p>{r.text}</p>
                               </div>
-                              {/* author-only reply actions */}
                               {isAuthor(r.author) && (
                                 <div className="forumReplyActions">
                                   <button className="forumGhostBtn small" type="button" onClick={() => startEditReply(r)}>Edit</button>

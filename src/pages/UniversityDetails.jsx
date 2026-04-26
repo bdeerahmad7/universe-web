@@ -4,10 +4,11 @@ import "./UniversityDetails.css";
 import { NavLink, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getUniversityById, universitiesData } from "../data/universitiesData";
+import { getData, setData, STORAGE_KEYS } from "../data/storage";
 
 // localStorage keys
-const SAVED_KEY   = "universe-saved-universities";
-const COMPARE_KEY = "universe-compare-universities";
+const SAVED_KEY   = STORAGE_KEYS.savedUnis;
+const COMPARE_KEY = STORAGE_KEYS.compareUnis;
 
 export default function UniversityDetails() {
   const { id }  = useParams();
@@ -19,10 +20,10 @@ export default function UniversityDetails() {
 
   // load state + scroll to top on id change
   useEffect(() => {
-    setSaved(JSON.parse(localStorage.getItem(SAVED_KEY)    || "[]"));
-    setCompare(JSON.parse(localStorage.getItem(COMPARE_KEY) || "[]"));
-    window.scrollTo(0, 0);
-  }, [id]);
+  setSaved(getData(SAVED_KEY, []));
+  setCompare(getData(COMPARE_KEY, []));
+  window.scrollTo(0, 0);
+}, [id]);
 
   // auto hide notice
   useEffect(() => {
@@ -51,30 +52,27 @@ export default function UniversityDetails() {
 
   // toggle save
   const toggleSave = () => {
-    const updated = isSaved
-      ? saved.filter((i) => i !== uni.id)
-      : [...saved, uni.id];
-    setSaved(updated);
-    localStorage.setItem(SAVED_KEY, JSON.stringify(updated));
-  };
+  const updated = isSaved
+    ? saved.filter((i) => i !== uni.id)
+    : [...saved, uni.id];
+  setSaved(updated);
+  setData(SAVED_KEY, updated);
+};
 
   // toggle compare
   const toggleCompare = () => {
-    if (isCompared) {
-      const updated = compare.filter((i) => i !== uni.id);
-      setCompare(updated);
-      localStorage.setItem(COMPARE_KEY, JSON.stringify(updated));
-      return;
-    }
-    if (compare.length >= 3) {
-      setNotice("Max 3 universities reached");
-      return;
-    }
-    const updated = [...compare, uni.id];
+  if (isCompared) {
+    const updated = compare.filter((i) => i !== uni.id);
     setCompare(updated);
-    localStorage.setItem(COMPARE_KEY, JSON.stringify(updated));
-    setNotice("Added to compare");
-  };
+    setData(COMPARE_KEY, updated);
+    return;
+  }
+  if (compare.length >= 3) { setNotice("Max 3 universities reached"); return; }
+  const updated = [...compare, uni.id];
+  setCompare(updated);
+  setData(COMPARE_KEY, updated);
+  setNotice("Added to compare");
+};
 
   // related universities — same subject group, exclude current
   const related = universitiesData

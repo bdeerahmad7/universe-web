@@ -4,10 +4,11 @@ import "./Universities.css";
 import { NavLink } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import { universitiesData } from "../data/universitiesData";
+import { getData, setData, STORAGE_KEYS } from "../data/storage";
 
 // localStorage keys
-const SAVED_KEY = "universe-saved-universities";
-const COMPARE_KEY = "universe-compare-universities";
+const SAVED_KEY   = STORAGE_KEYS.savedUnis;
+const COMPARE_KEY = STORAGE_KEYS.compareUnis;
 
 // subject filter options
 const subjectOptions = [
@@ -34,10 +35,10 @@ export default function Universities() {
   const [notice, setNotice] = useState("");
 
   // load saved state
-  useEffect(() => {
-    setSaved(JSON.parse(localStorage.getItem(SAVED_KEY) || "[]"));
-    setCompare(JSON.parse(localStorage.getItem(COMPARE_KEY) || "[]"));
-  }, []);
+ useEffect(() => {
+  setSaved(getData(SAVED_KEY, []));
+  setCompare(getData(COMPARE_KEY, []));
+}, []);
 
   // auto hide notice
   useEffect(() => {
@@ -48,37 +49,34 @@ export default function Universities() {
 
   // toggle save
   const toggleSave = (id) => {
-    const updated = saved.includes(id)
-      ? saved.filter((i) => i !== id)
-      : [...saved, id];
-    setSaved(updated);
-    localStorage.setItem(SAVED_KEY, JSON.stringify(updated));
-  };
+  const updated = saved.includes(id)
+    ? saved.filter((i) => i !== id)
+    : [...saved, id];
+  setSaved(updated);
+  setData(SAVED_KEY, updated);
+};
 
   // toggle compare
-  const toggleCompare = (id) => {
-    if (compare.includes(id)) {
-      const updated = compare.filter((i) => i !== id);
-      setCompare(updated);
-      localStorage.setItem(COMPARE_KEY, JSON.stringify(updated));
-      return;
-    }
-    if (compare.length >= 3) {
-      setNotice("Maximum 3 universities for compare.");
-      return;
-    }
-    const updated = [...compare, id];
+ const toggleCompare = (id) => {
+  if (compare.includes(id)) {
+    const updated = compare.filter((i) => i !== id);
     setCompare(updated);
-    localStorage.setItem(COMPARE_KEY, JSON.stringify(updated));
-    setNotice("Added to compare.");
-  };
+    setData(COMPARE_KEY, updated);
+    return;
+  }
+  if (compare.length >= 3) { setNotice("Maximum 3 universities for compare."); return; }
+  const updated = [...compare, id];
+  setCompare(updated);
+  setData(COMPARE_KEY, updated);
+  setNotice("Added to compare.");
+};
 
   // clear compare
   const clearCompare = () => {
-    setCompare([]);
-    localStorage.setItem(COMPARE_KEY, JSON.stringify([]));
-    setShowCompare(false);
-  };
+  setCompare([]);
+  setData(COMPARE_KEY, []);
+  setShowCompare(false);
+};
 
   // reset all filters
   const resetFilters = () => {

@@ -3,6 +3,7 @@
 import "./Navbar.css";
 import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { getUser, saveUser, removeUser } from "../data/storage";
 
 /* nav links */
 const navLinks = [
@@ -26,7 +27,7 @@ export default function Navbar() {
 
   /* load saved user on mount */
   useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("universe-user") || "null");
+    const saved = getUser();
     if (saved) setUser(saved);
   }, []);
 
@@ -42,7 +43,7 @@ export default function Navbar() {
       name:   nameInput.trim(),
       avatar: `https://i.pravatar.cc/60?u=${nameInput.trim()}`,
     };
-    localStorage.setItem("universe-user", JSON.stringify(newUser));
+    saveUser(newUser);
     setUser(newUser);
     setShowModal(false);
     setNameInput("");
@@ -52,7 +53,7 @@ export default function Navbar() {
 
   /* logout */
   const handleLogout = () => {
-    localStorage.removeItem("universe-user");
+    removeUser();
     setUser(null);
     setOpen(false);
     setDropOpen(false);
@@ -129,35 +130,55 @@ export default function Navbar() {
               />
               {dropOpen && (
                 <div className="navDropdown">
-                  <span className="navDropdownName">{user.name}</span>
-                  <NavLink
-                    to="/universities"
-                    className="navDropdownLink"
-                    onClick={() => { closeMenu(); setDropOpen(false); }}
-                  >
-                    Explore
-                  </NavLink>
-                  <NavLink
-                    to="/guides"
-                    className="navDropdownLink"
-                    onClick={() => { closeMenu(); setDropOpen(false); }}
-                  >
-                    Life guide
-                  </NavLink>
-                  <NavLink
-                    to="/motivation"
-                    className="navDropdownLink"
-                    onClick={() => { closeMenu(); setDropOpen(false); }}
-                  >
-                    Motivation
-                  </NavLink>
+
+                  {/* user info */}
+                  <div className="navDropdownUser">
+                    <img src={user.avatar} alt={user.name} className="navDropdownAvatar" />
+                    <div>
+                      <p className="navDropdownName">{user.name}</p>
+                      <p className="navDropdownRole">Student</p>
+                    </div>
+                  </div>
+
+                  <div className="navDropdownDivider" />
+
+                  {/* account actions — UI only, Firebase coming soon */}
+                  <button className="navDropdownItem" type="button" onClick={() => setDropOpen(false)}>
+                    <span className="navDropdownItemIcon">👤</span>
+                    My Profile
+                    <span className="navDropdownItemBadge">Soon</span>
+                  </button>
+
+                  <button className="navDropdownItem" type="button" onClick={() => setDropOpen(false)}>
+                    <span className="navDropdownItemIcon">🔖</span>
+                    Saved Universities
+                    <span className="navDropdownItemBadge">Soon</span>
+                  </button>
+
+                  <button className="navDropdownItem" type="button" onClick={() => setDropOpen(false)}>
+                    <span className="navDropdownItemIcon">⚙️</span>
+                    Settings
+                    <span className="navDropdownItemBadge">Soon</span>
+                  </button>
+
+                  <button className="navDropdownItem" type="button" onClick={() => setDropOpen(false)}>
+                    <span className="navDropdownItemIcon">🌐</span>
+                    Language
+                    <span className="navDropdownItemBadge">Soon</span>
+                  </button>
+
+                  <div className="navDropdownDivider" />
+
+                  {/* logout — works now */}
                   <button
-                    className="navDropdownBtn"
+                    className="navDropdownItem logout"
                     type="button"
                     onClick={() => { handleLogout(); setDropOpen(false); }}
                   >
+                    <span className="navDropdownItemIcon">🚪</span>
                     Logout
                   </button>
+
                 </div>
               )}
             </div>

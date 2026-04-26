@@ -2,9 +2,7 @@
 
 import "./Guides.css";
 import { useEffect, useState } from "react";
-
-// localStorage key
-const GUIDE_PROGRESS_KEY = "universe-guide-progress";
+import { getData, setData, STORAGE_KEYS } from "../data/storage";
 
 // guide sections data
 const guidesData = [
@@ -122,16 +120,17 @@ const guidesData = [
 const totalItems = guidesData.reduce((sum, g) => sum + g.checklist.length, 0);
 
 export default function Guides() {
-  const [openId,         setOpenId]         = useState("arrival");
-  // load directly from localStorage as initial state — avoids reset on mount
-const [checkedByGuide, setCheckedByGuide] = useState(() =>
-  JSON.parse(localStorage.getItem(GUIDE_PROGRESS_KEY) || "{}")
-);
+  const [openId, setOpenId] = useState("arrival");
 
-// save on every change
-useEffect(() => {
-  localStorage.setItem(GUIDE_PROGRESS_KEY, JSON.stringify(checkedByGuide));
-}, [checkedByGuide]);
+  // load from centralised storage — per user if logged in
+  const [checkedByGuide, setCheckedByGuide] = useState(() =>
+    getData(STORAGE_KEYS.guideProgress, {})
+  );
+
+  // save to centralised storage on every change
+  useEffect(() => {
+    setData(STORAGE_KEYS.guideProgress, checkedByGuide);
+  }, [checkedByGuide]);
 
   // toggle accordion section
   const toggleSection = (id) => {
@@ -200,7 +199,7 @@ useEffect(() => {
               key={guide.id}
               className={`guideSection ${isOpen ? "open" : ""} ${completed ? "completed" : ""}`}
             >
-              {/* section header — click to toggle */}
+              {/* section header */}
               <button
                 className="guideSectionHeader"
                 type="button"
@@ -212,18 +211,13 @@ useEffect(() => {
                     <span className="guideSectionDonePill">✓ Completed</span>
                   )}
                 </div>
-
                 <div className="guideSectionRight">
-                  <span className="guideSectionCount">
-                    {done}/{total}
-                  </span>
-                  <span className="guideSectionArrow">
-                    {isOpen ? "▲" : "▼"}
-                  </span>
+                  <span className="guideSectionCount">{done}/{total}</span>
+                  <span className="guideSectionArrow">{isOpen ? "▲" : "▼"}</span>
                 </div>
               </button>
 
-              {/* section content — only shown when open */}
+              {/* section content */}
               {isOpen && (
                 <div className="guideSectionBody">
                   <p className="guideSectionIntro">{guide.intro}</p>
@@ -241,8 +235,6 @@ useEffect(() => {
                           </div>
                         ))}
                       </div>
-
-                      {/* next step */}
                       <div className="guideNextCard">
                         <span className="guidesMiniPill dark">Recommended next step</span>
                         <p>{guide.nextStep}</p>
