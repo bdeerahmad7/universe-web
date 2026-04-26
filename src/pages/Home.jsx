@@ -7,12 +7,12 @@ import { universitiesData } from "../data/universitiesData";
 
 /* feature cards */
 const features = [
-  { icon: "🎓", title: "Explore universities",    text: "Compare options and find what fits your goals."    },
+  { icon: "🎓", title: "Explore universities",    text: "Compare options and find what fits your goals." },
   { icon: "🏙️", title: "Understand student life", text: "Clear steps for housing, money, and daily living." },
-  { icon: "💬", title: "Ask practical questions",  text: "Get useful answers from real student situations."  },
+  { icon: "💬", title: "Ask practical questions",  text: "Get useful answers from real student situations." },
 ];
 
-/* hero stats — simple strings */
+/* hero stats */
 const stats = [
   "Multilingual friendly",
   "UK Wide",
@@ -44,7 +44,7 @@ export default function Home() {
           {/* buttons */}
           <div className="heroActions">
             <NavLink to="/universities" className="btnPrimary">Explore universities</NavLink>
-            <NavLink to="/guides"       className="btnGhost">Life guide</NavLink>
+            <NavLink to="/guides" className="btnGhost">Life guide</NavLink>
           </div>
         </div>
       </section>

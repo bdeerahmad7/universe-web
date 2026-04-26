@@ -1,0 +1,50 @@
+/* NotFound.css — 404 page */
+
+.notFoundPage {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.notFoundCode {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-soft);
+}
+
+.notFoundTitle {
+  margin-top: 10px;
+  font-size: clamp(32px, 5vw, 52px);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--text-main);
+}
+
+.notFoundText {
+  margin-top: 14px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-soft);
+  max-width: 480px;
+}
+
+.notFoundBtn {
+  margin-top: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  background: var(--btn-gradient);
+  color: var(--white);
+  padding: 10px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 13px;
+  box-shadow: 0 10px 20px rgba(19,38,83,.16);
+  transition: transform .15s ease;
+}
+
+.notFoundBtn:hover { transform: translateY(-1px); }

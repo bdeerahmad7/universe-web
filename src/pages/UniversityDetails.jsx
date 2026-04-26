@@ -6,24 +6,23 @@ import { useEffect, useState } from "react";
 import { getUniversityById, universitiesData } from "../data/universitiesData";
 import { getData, setData, STORAGE_KEYS } from "../data/storage";
 
-// localStorage keys
-const SAVED_KEY   = STORAGE_KEYS.savedUnis;
+const SAVED_KEY = STORAGE_KEYS.savedUnis;
 const COMPARE_KEY = STORAGE_KEYS.compareUnis;
 
 export default function UniversityDetails() {
-  const { id }  = useParams();
-  const uni     = getUniversityById(id);
+  const { id } = useParams();
+  const uni = getUniversityById(id);
 
-  const [saved,   setSaved]   = useState([]);
+  const [saved, setSaved] = useState([]);
   const [compare, setCompare] = useState([]);
-  const [notice,  setNotice]  = useState("");
+  const [notice, setNotice] = useState("");
 
   // load state + scroll to top on id change
   useEffect(() => {
-  setSaved(getData(SAVED_KEY, []));
-  setCompare(getData(COMPARE_KEY, []));
-  window.scrollTo(0, 0);
-}, [id]);
+    setSaved(getData(SAVED_KEY, []));
+    setCompare(getData(COMPARE_KEY, []));
+    window.scrollTo(0, 0);
+  }, [id]);
 
   // auto hide notice
   useEffect(() => {
@@ -47,32 +46,32 @@ export default function UniversityDetails() {
     );
   }
 
-  const isSaved    = saved.includes(uni.id);
+  const isSaved = saved.includes(uni.id);
   const isCompared = compare.includes(uni.id);
 
   // toggle save
   const toggleSave = () => {
-  const updated = isSaved
-    ? saved.filter((i) => i !== uni.id)
-    : [...saved, uni.id];
-  setSaved(updated);
-  setData(SAVED_KEY, updated);
-};
+    const updated = isSaved
+      ? saved.filter((i) => i !== uni.id)
+      : [...saved, uni.id];
+    setSaved(updated);
+    setData(SAVED_KEY, updated);
+  };
 
   // toggle compare
   const toggleCompare = () => {
-  if (isCompared) {
-    const updated = compare.filter((i) => i !== uni.id);
+    if (isCompared) {
+      const updated = compare.filter((i) => i !== uni.id);
+      setCompare(updated);
+      setData(COMPARE_KEY, updated);
+      return;
+    }
+    if (compare.length >= 3) { setNotice("Max 3 universities reached"); return; }
+    const updated = [...compare, uni.id];
     setCompare(updated);
     setData(COMPARE_KEY, updated);
-    return;
-  }
-  if (compare.length >= 3) { setNotice("Max 3 universities reached"); return; }
-  const updated = [...compare, uni.id];
-  setCompare(updated);
-  setData(COMPARE_KEY, updated);
-  setNotice("Added to compare");
-};
+    setNotice("Added to compare");
+  };
 
   // related universities — same subject group, exclude current
   const related = universitiesData
@@ -99,7 +98,6 @@ export default function UniversityDetails() {
         </div>
 
         <div className="detailsIntroCard">
-          {/* pills row */}
           <div className="detailsPills">
             <span className="detailsCityPill">{uni.city}</span>
             <span className="detailsSubjectPill">{uni.subjectGroup}</span>
@@ -108,7 +106,6 @@ export default function UniversityDetails() {
           <h1 className="detailsTitle">{uni.name}</h1>
           <p className="detailsOverview">{uni.overview}</p>
 
-          {/* actions */}
           <div className="detailsActions">
             <button
               className={`detailsPrimaryBtn ${isSaved ? "saved" : ""}`}
@@ -148,19 +145,18 @@ export default function UniversityDetails() {
           <p className="detailsFit">{uni.bestFor}</p>
 
           <div className="detailsFacts">
-            <p><strong>Focus:</strong>    {uni.focus}</p>
-            <p><strong>City:</strong>     {uni.city}</p>
-            <p><strong>Tuition:</strong>  £{uni.tuition.toLocaleString()} / year</p>
-            <p><strong>Lifestyle:</strong>{uni.lifestyle}</p>
+            <p><strong>Focus:</strong> {uni.focus}</p>
+            <p><strong>City:</strong> {uni.city}</p>
+            <p><strong>Tuition:</strong> £{uni.tuition.toLocaleString()} / year</p>
+            <p><strong>Lifestyle:</strong> {uni.lifestyle}</p>
           </div>
 
-          {/* official links */}
           <div className="detailsNext">
             <h3>Official links</h3>
-            <a href={uni.officialUrl}       target="_blank" rel="noreferrer" className="detailsInlineBtn">
+            <a href={uni.officialUrl} target="_blank" rel="noreferrer" className="detailsInlineBtn">
               Website
             </a>
-            <a href={uni.internationalUrl}  target="_blank" rel="noreferrer" className="detailsInlineBtn secondary">
+            <a href={uni.internationalUrl} target="_blank" rel="noreferrer" className="detailsInlineBtn secondary">
               International info
             </a>
           </div>

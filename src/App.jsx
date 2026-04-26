@@ -13,15 +13,15 @@ import NotFound from "./pages/NotFound";
 export default function App() {
   return (
     <Routes>
-      {/* all pages share the Layout wrapper (Navbar) */}
+      {/* all pages share the Layout wrapper */}
       <Route element={<Layout />}>
-        <Route path="/"                 element={<Home />} />
-        <Route path="/universities"     element={<Universities />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/universities" element={<Universities />} />
         <Route path="/universities/:id" element={<UniversityDetails />} />
-        <Route path="/guides"           element={<Guides />} />
-        <Route path="/motivation"       element={<Motivation />} />
-        <Route path="/forum"            element={<Forum />} />
-        <Route path="*"                 element={<NotFound />} />
+        <Route path="/guides" element={<Guides />} />
+        <Route path="/motivation" element={<Motivation />} />
+        <Route path="/forum" element={<Forum />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
